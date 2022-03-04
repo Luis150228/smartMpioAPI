@@ -1,0 +1,75 @@
+@apir = http://localhost/apiNotFrame/rutes
+@apirutes = http://www.smartmpio.xyz/smartMpioApi/rutes
+
+
+###Registro de usuarios
+POST {{apirutes}}/crudUsers.php
+# x-access-token: {{tokengod}}
+# Content-Type: application/json; charset=UTF-8
+
+{
+  "numDep": "999",
+  "usr": "gotter2",
+  "nombre": "Cap. Gotter Amero Stark",
+  "cargo": "Developer",
+  "area": "Sistemas",
+  "psw": "Equilibrio",
+  "estatus": "1"
+}
+
+###Solicitud de Informacion
+GET {{apirutes}}/crudUsers.php?pag=1&e=3
+# x-access-token: {{tokengod}}
+# Content-Type: application/json; charset=UTF-8
+
+###Solicitud de Informacion
+GET {{apirutes}}/crudUsers.php?id=4
+# x-access-token: {{tokengod}}
+# Content-Type: application/json; charset=UTF-8
+
+
+###Edicion de Informacion
+PUT {{apirutes}}/crudUsers.php
+# x-access-token: {{tokengod}}
+# Content-Type: application/json; charset=UTF-8
+
+{
+  "id": "27",
+  "numDep": "999",
+  "usr": "lfrangel",
+  "nombre": "Rangel Diaz Luis Fernando",
+  "cargo": "Developer",
+  "area": "Sistemas",
+  "psw": "Equilibrio",
+  "estatus": "1"
+}
+
+###Borrado de Informacion
+DELETE {{apirutes}}/crudUsers.php
+# x-access-token: {{tokengod}}
+# Content-Type: application/json; charset=UTF-8
+
+{
+  "numDep": "999",
+  "usr": "lfrangel",
+  "nombre": "Rangel Diaz Luis Fernando",
+  "cargo": "Developer",
+  "area": "Sistemas",
+  "psw": "Equilibrio",
+  "estatus": "1"
+}
+
+###Borrado de Informacion
+PATCH  {{apirutes}}/crudUsers.php
+# x-access-token: {{tokengod}}
+# Content-Type: application/json; charset=UTF-8
+
+{
+  "numDep": "999",
+  "usr": "lfrangel",
+  "nombre": "Rangel Diaz Luis Fernando",
+  "cargo": "Developer",
+  "area": "Sistemas",
+  "psw": "Equilibrio",
+  "estatus": "1"
+}

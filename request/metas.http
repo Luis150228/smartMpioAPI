@@ -1,0 +1,15 @@
+@apirutes = http://localhost/apiNotFrame/rutes
+
+
+###Registro de usuarios
+POST {{apirutes}}/metas.php
+
+{
+  "numDep": "999",
+  "usr": "lfrangel",
+  "nombre": "Rangel Diaz Luis Fernando",
+  "cargo": "Developer",
+  "area": "Sistemas",
+  "psw": "Equilibrio",
+  "estatus": "1"
+}

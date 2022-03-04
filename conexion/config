@@ -1,0 +1,7 @@
+{
+        "dcnx":{
+        "dns": "mysql:dbname=smartmpio;host=localhost",
+        "user": "root",
+        "password": ""
+    }
+}

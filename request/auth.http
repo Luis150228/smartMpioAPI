@@ -1,0 +1,23 @@
+@api = http://www.smartmpio.xyz/smartMpioApi
+@apirutes = http://localhost/apiNotFrame/rutes
+
+
+###Error
+POST {{api}}/authentica.php
+# x-access-token: {{tokengod}}
+Content-Type: application/json; charset=UTF-8
+
+{
+  "user": "lrangel",
+  "pass": "aprender"
+}
+
+###Login
+POST {{api}}/auth.php
+# x-access-token: {{tokengod}}
+# Content-Type: application/json; charset=UTF-8
+
+{
+  "user": "lfrangel",
+  "pass": "Equilibrio"
+}
