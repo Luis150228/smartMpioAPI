@@ -1,5 +1,6 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'].'/smartMpioApi/access.php'); ///Conecion General Al ROOT
+include_once($_SERVER['DOCUMENT_ROOT'].'/smartMpioApi/access.php');
+include_once (ROOT_PATH.'/access.php');///Root
 include (CONECT_PATH.'cnx.php');///Cargar Datos
 include (CLASS_PATH.'respuesta.php');///Cargar Datos
 

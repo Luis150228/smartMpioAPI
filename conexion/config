@@ -1,7 +1,7 @@
 {
         "dcnx":{
-        "dns": "mysql:dbname=smartmpio;host=localhost",
-        "user": "root",
-        "password": ""
+        "dns": "mysql:dbname=u833518013_smartmpio;host=92.249.44.156",
+        "user": "u833518013_smartmpio",
+        "password": "F3nixFree15"
     }
 }
