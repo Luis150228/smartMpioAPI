@@ -51,6 +51,15 @@ class respuesta{
         return $this->response;
     }
 
+    public function error_409(){
+        $this->response['status'] = 'error';
+        $this->response['message'] = array(
+            'code'=>"409",
+            'code_msg'=>"Posibles problemas con las claves foraneas de DB"
+        );
+        return $this->response;
+    }
+
 }
 
 ?>

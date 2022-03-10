@@ -59,7 +59,7 @@ class users extends cnx{
 
     private function pageUsers($p, $e){
         $t = $this->dbtabla;
-        $sql = "CALL listUsers('$t', '$p', '$e')";
+        $sql = "CALL listData('$t', '$p', '$e')";
         // print_r($sql);
             $query = parent::getDataPa($sql);
             // echo $query[0]['id'];
@@ -81,7 +81,7 @@ class users extends cnx{
 
     private function dataUser($u){
         $t = $this->dbtabla;
-        $sql = "CALL dataUser('$t', '$u')";
+        $sql = "CALL viewData('$t', '$u')";
             $query = parent::getDataPa($sql);
             $logg = array_slice($query[0], 0, 10);
             return $logg;

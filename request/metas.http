@@ -1,15 +1,48 @@
-@apirutes = http://localhost/apiNotFrame/rutes
+@apirutes = http://localhost/smartMpioApi/rutes
 
 
 ###Registro de usuarios
 POST {{apirutes}}/metas.php
 
 {
-  "numDep": "999",
-  "usr": "lfrangel",
-  "nombre": "Rangel Diaz Luis Fernando",
-  "cargo": "Developer",
-  "area": "Sistemas",
-  "psw": "Equilibrio",
-  "estatus": "1"
+  "numDep": "7",
+  "des_meta": "bORARR",
+  "des_mcorta": "eLIMINAR",
+  "des_objetivo": "dsdasdas",
+  "tipo": "POA",
+  "cuantifica": "1",
+  "user":"lfrangel",
+  "inicio": "2021-12-01",
+  "fin": "2022-12-01"
 }
+
+###MOdificar
+PUT {{apirutes}}/metas.php
+
+{
+  "idmeta":"36",
+  "numDep": "7",
+  "des_meta": "Solicitud de Permisos para la Poda y/o Tala",
+  "des_mcorta": "Permiso Poda",
+  "des_objetivo": "Se realizara la cuantificacion de los permisos ",
+  "tipo": "NC",
+  "cuantifica": "0",
+  "user":"lfrangel",
+  "inicio": "2021-12-25",
+  "fin": "2022-03-15",
+  "edo":"1"
+}
+
+###Borrar
+DELETE {{apirutes}}/metas.php
+
+{
+  "idmeta":"35",
+  "edo":"0"
+}
+
+###Consulta un registro
+GET {{apirutes}}/metas.php?id=36
+
+###Solicitud de Informacion por Paginacion
+GET {{apirutes}}/metas.php?pag=1&e=3
