@@ -8,7 +8,7 @@ class users extends cnx{
 
     private $dbtabla = 'usuarios';
     
-    public function addUser($json){
+    public function addUser($json, $header){
         $_resp = new respuesta;
         $info = json_decode($json, true);
         if ( !isset($info['numDep']) || !isset($info['usr']) || !isset($info['psw']) ) {
@@ -22,8 +22,9 @@ class users extends cnx{
                $area = $info['area'];
                $psw = $info['psw'];
                $estatus = $info['estatus'];
+               $token = $header['x-access-token'];
 
-               $data = $this->regUser($numDep, $usr, $nombre, $cargo, $area, $psw, $estatus);
+               $data = $this->regUser($numDep, $usr, $nombre, $cargo, $area, $psw, $estatus, $token);
                if ($data) {
                    return $data;
                 }else{
@@ -32,9 +33,10 @@ class users extends cnx{
         }
     }
 
-    private function regUser($numDep, $usr, $nombre, $cargo, $area, $psw, $estatus){
+    private function regUser($numDep, $usr, $nombre, $cargo, $area, $psw, $estatus, $tk){
         $password = password_hash($psw, PASSWORD_DEFAULT);
-        $sql = "CALL regUser('$numDep', '$usr', '$nombre', '$cargo', '$area', '$password', '$estatus')";
+        $sql = "CALL regUser('$numDep', '$usr', '$nombre', '$cargo', '$area', '$password', '$estatus', '$tk')";
+        // print_r($sql);
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code']) && isset($query[0]['code_msg'])) {
             return $query;
@@ -43,51 +45,44 @@ class users extends cnx{
         }
     }
 
-    public function listUsers($pag, $elem){
-        $_resp = new respuesta;
+    public function listUsers($pag, $elem, $token){
         // return "Se muestran ".$elem. " elementos en la pag ". $pag;
         if ($pag >=1) {
-            $data = $this->pageUsers($pag, $elem);
-            // print_r($data);
+            $data = $this->pageUsers($pag, $elem, $token);
             return $data;
-        } else {
-            return $_resp->error_416();
         }
 
 
     }
 
-    private function pageUsers($p, $e){
+    private function pageUsers($p, $e, $tk){
         $t = $this->dbtabla;
-        $sql = "CALL listData('$t', '$p', '$e')";
-        // print_r($sql);
-            $query = parent::getDataPa($sql);
-            // echo $query[0]['id'];
-            if (isset($query[0]['id'])) {
-                return $query;
-            }else{
-                return false;
-            }
+        $sql = "CALL listData('$t', '$p', '$e', '$tk')";
+        $query = parent::getDataPa($sql);
+        
+        return $query;
+        
     }
 
     
-    public function viewtUser($u){
+    public function viewtUser($u, $tk){
         // $_resp = new respuesta;
         if ($u >= 1) {
-            $data = $this->dataUser($u);
+            $data = $this->dataUser($u, $tk);
             return $data;
         }
     }
-
-    private function dataUser($u){
+    
+    private function dataUser($u, $tk){
         $t = $this->dbtabla;
-        $sql = "CALL viewData('$t', '$u')";
+        $sql = "CALL viewData('$t', '$u', '$tk')";
+        // print_r($sql);
             $query = parent::getDataPa($sql);
             $logg = array_slice($query[0], 0, 10);
             return $logg;
     }
     
-    public function editUser($json){
+    public function editUser($json, $header){
         $_resp = new respuesta;
         $info = json_decode($json, true);
         if (!isset($info['id'])) {
@@ -100,13 +95,14 @@ class users extends cnx{
             $area = $info['area'];
             $pswn = $info['psw'];
             $estatus = $info['estatus'];
+            $token = $header['x-access-token'];
 
-            $data = $this->updateUser($id, $numDep, $nombre, $cargo, $area, $pswn, $estatus);
+            $data = $this->updateUser($id, $numDep, $nombre, $cargo, $area, $pswn, $estatus, $token);
             return $data;
         }
     }
 
-    private function updateUser($id, $numDep, $nombre, $cargo, $area, $pswn, $estatus){
+    private function updateUser($id, $numDep, $nombre, $cargo, $area, $pswn, $estatus, $token){
         $t = $this->dbtabla;
         if ($pswn == '') {
             $password = '';
@@ -114,7 +110,7 @@ class users extends cnx{
             $password = password_hash($pswn, PASSWORD_DEFAULT);
         }
 
-        $sql = "CALL userUpdate('$id', '$numDep', '$nombre', '$cargo', '$area', '$password', '$estatus', '$t')";
+        $sql = "CALL userUpdate('$id', '$numDep', '$nombre', '$cargo', '$area', '$password', '$estatus', '$t', '$token')";
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code']) && isset($query[0]['code_msg'])) {
             return $query;
@@ -124,22 +120,22 @@ class users extends cnx{
         }
     }
 
-    public function deleteUser($json){
+    public function deleteUser($json, $header){
         $_resp = new respuesta;
         $info = json_decode($json, true);
-        if (!isset($info['id'])) {
+        if (!isset($info['id']) && !$header['x-access-token']) {
             return $_resp->error_416();
         } else {
             $id = $info['id'];
-
-            $data = $this->userErase($id);
+            $token = $header['x-access-token'];
+            $data = $this->userErase($id, $token);
             return $data;
         }
     }
 
-    private function userErase($id){
+    private function userErase($id, $tk){
         $t = $this->dbtabla;
-        $sql = "CALL deleteData('$id', '$t')";
+        $sql = "CALL deleteData('$id', '$t', '$tk')";
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code']) && isset($query[0]['code_msg'])) {
             return $query;

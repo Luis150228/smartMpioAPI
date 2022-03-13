@@ -7,10 +7,10 @@ class metas extends cnx {
 
     public $dbtabla = 'metas';
 
-    public function addMeta($json){
+    public function addMeta($json, $header){
         $_resp = new respuesta;
         $readJson = json_decode($json, true);
-        if (!isset($readJson['user']) || !isset($readJson['des_meta']) || !isset($readJson['des_mcorta']) || !isset($readJson['des_objetivo'])) {
+        if (!isset($readJson['user']) || !isset($readJson['des_meta']) || !isset($readJson['des_mcorta']) || !isset($readJson['des_objetivo']) || !isset($header['x-access-token'])) {
             return $_resp->error_416();
         } else {
             $numDep = $readJson['numDep'];
@@ -22,8 +22,9 @@ class metas extends cnx {
             $user = $readJson['user'];
             $inicio = $readJson['inicio'];
             $fin = $readJson['fin'];
+            $tk = $header['x-access-token'];
 
-            $data = $this->addPoa($numDep, $des_meta, $des_mcorta, $des_objetivo, $tipo, $user, $cuantifica, $inicio, $fin);
+            $data = $this->addPoa($numDep, $des_meta, $des_mcorta, $des_objetivo, $tipo, $user, $cuantifica, $inicio, $fin, $tk);
             if ($data) {
                 return $data;
             } else {
@@ -32,18 +33,19 @@ class metas extends cnx {
         }
     }
 
-    private function addPoa ($numDep, $des_meta, $des_mcorta, $des_objetivo, $tipo, $user, $cuantifica, $inicio, $fin){
-        $sql = "CALL metaCreate('$numDep', '$des_meta', '$des_mcorta', '$des_objetivo', '$tipo', '$user', '$cuantifica', '$inicio', '$fin', 'metas')";
+    private function addPoa ($numDep, $des_meta, $des_mcorta, $des_objetivo, $tipo, $user, $cuantifica, $inicio, $fin, $tk){
+        $t = $this->dbtabla;
+        $sql = "CALL metaCreate('$numDep', '$des_meta', '$des_mcorta', '$des_objetivo', '$tipo', '$user', '$cuantifica', '$inicio', '$fin', '$t', '$tk')";
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])){
             return $query;
         }
     }
 
-    public function editMeta ($json){
+    public function editMeta ($json, $header){
         $_resp = new respuesta;
         $readJson = json_decode($json, true);
-        if (!isset($readJson['user']) || !isset($readJson['idmeta']) || !isset($readJson['des_meta']) || !isset($readJson['des_mcorta']) || !isset($readJson['des_objetivo'])) {
+        if (!isset($header['x-access-token']) || !isset($readJson['user']) || !isset($readJson['idmeta']) || !isset($readJson['des_meta']) || !isset($readJson['des_mcorta']) || !isset($readJson['des_objetivo'])) {
             return $_resp->error_416();
         } else {
             $idmeta = $readJson['idmeta'];
@@ -57,8 +59,9 @@ class metas extends cnx {
             $inicio = $readJson['inicio'];
             $fin = $readJson['fin'];
             $edo = $readJson['edo'];
+            $token = $header['x-access-token'];
 
-            $data = $this->edtPoa($idmeta, $numDep, $des_meta, $des_mcorta, $des_objetivo, $tipo, $user, $cuantifica, $inicio, $fin, $edo);
+            $data = $this->edtPoa($idmeta, $numDep, $des_meta, $des_mcorta, $des_objetivo, $tipo, $user, $cuantifica, $inicio, $fin, $edo, $token);
             if ($data) {
                 return $data;
             } else {
@@ -67,9 +70,9 @@ class metas extends cnx {
         }        
     }
 
-    private function edtPoa($idmeta, $numDep, $des_meta, $des_mcorta, $des_objetivo, $tipo, $user, $cuantifica, $inicio, $fin, $edo){
-        // $m = $this->$dbtablam;
-        $sql = "CALL metaEdit('$idmeta', '$numDep', '$des_meta', '$des_mcorta', '$des_objetivo', '$tipo', '$user', '$cuantifica', '$inicio', '$fin', '$edo', 'metas')";
+    private function edtPoa($idmeta, $numDep, $des_meta, $des_mcorta, $des_objetivo, $tipo, $user, $cuantifica, $inicio, $fin, $edo, $token){
+        $t = $this->dbtablam;
+        $sql = "CALL metaEdit('$idmeta', '$numDep', '$des_meta', '$des_mcorta', '$des_objetivo', '$tipo', '$user', '$cuantifica', '$inicio', '$fin', '$edo', '$t', '$token')";
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])){
             return $query;
@@ -77,15 +80,16 @@ class metas extends cnx {
     }
 
 
-    public function deleteMeta($json){
+    public function deleteMeta($json, $header){
         $_resp = new respuesta;
         $readJson = json_decode($json, true);
-        if (!isset($readJson['idmeta']) || !isset($readJson['edo'])) {
+        if (!isset($header['x-access-token']) || !isset($readJson['idmeta']) || !isset($readJson['edo']) || !isset($readJson['user'])) {
             return $_resp->error_416();
         }else{
             $idmeta = $readJson['idmeta'];
+            $token = $header['x-access-token'];
             
-            $data = $this->delMeta($idmeta);
+            $data = $this->delMeta($idmeta, $token);
             if ($data) {
                 return $data;
             } else {
@@ -94,8 +98,9 @@ class metas extends cnx {
         }
     }
 
-    private function delMeta($id){
-        $sql = "CALL deleteData('$id', 'metas')";
+    private function delMeta($id, $tk){
+        $t = $this->dbtabla;
+        $sql = "CALL deleteData('$id', '$t', '$tk')";
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])){
             return $query;
@@ -103,10 +108,10 @@ class metas extends cnx {
     }
     
 
-    public function listMetas($pag, $elem){
+    public function listMetas($pag, $elem, $token){
         $_resp = new respuesta;
         if ($pag >=1) {
-            $data = $this->pageData($pag, $elem);
+            $data = $this->pageData($pag, $elem, $token);
             // print_r($data);
             return $data;
         } else {
@@ -114,19 +119,19 @@ class metas extends cnx {
         }
     }
     
-    public function viewtMetas($u){
+    public function viewtMetas($u, $token){
         $_resp = new respuesta;
         if ($u >= 1) {
-            $data = $this->dataShow($u);
+            $data = $this->dataShow($u, $token);
             return $data;
         } else {
             return $_resp->error_416();
         }
     }
 
-    private function pageData($p, $e){
+    private function pageData($p, $e, $tk){
         $t = $this->dbtabla;
-        $sql = "CALL listData('$t', '$p', '$e')";
+        $sql = "CALL listData('$t', '$p', '$e', '$tk')";
             $query = parent::getDataPa($sql);
             if (isset($query[0]['id'])) {
                 return $query;
@@ -135,9 +140,9 @@ class metas extends cnx {
             }
     }
 
-    private function dataShow($u){
+    private function dataShow($u, $tk){
         $t = $this->dbtabla;
-        $sql = "CALL viewData('$t', '$u')";
+        $sql = "CALL viewData('$t', '$u', '$tk')";
             $query = parent::getDataPa($sql);
             return $query;
     }

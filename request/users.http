@@ -1,14 +1,10 @@
-@apir = http://localhost/apiNotFrame/rutes
-@apirutes = http://www.smartmpio.xyz/smartMpioApi/rutes
+@apirutes = http://localhost/smartMpioApi/rutes
+@apirutes2 = http://www.smartmpio.xyz/smartMpioApi/rutes
 
-
-###Registro de usuarios
-POST {{apirutes}}/crudUsers.php
-# x-access-token: {{tokengod}}
-# Content-Type: application/json; charset=UTF-8
-
-{
-  "numDep": "999",
+@token = 3237@44467732080?0.!&!!0&56976&80905?_@X6C6672616E67656C
+### Crear usuarios
+POST  {{apirutes}}/crudUsers.php
+{"numDep": "999",
   "usr": "gotter2",
   "nombre": "Cap. Gotter Amero Stark",
   "cargo": "Developer",
@@ -17,50 +13,30 @@ POST {{apirutes}}/crudUsers.php
   "estatus": "1"
 }
 
-###Solicitud de Informacion por Paginacion
-GET {{apirutes}}/crudUsers.php?pag=1&e=3
-# x-access-token: {{tokengod}}
-# Content-Type: application/json; charset=UTF-8
+### Editar informacion de usuario
+PUT {{apirutes}}/crudUsers.php
+x-access-token: {{token}}
+{"id": "27",
+  "numDep": "999",
+  "usr": "lfrangel",
+  "nombre": "Rangel Diaz Luis Fernando",
+  "cargo": "Developer",
+  "area": "Sistemas",
+  "psw": "Equilibrio",
+  "estatus": "1"  
+}
+
+###Solicitud de Informacion
+GET {{apirutes}}/crudUsers.php?pag=1&e=2
+x-access-token: {{token}}
+#Content-Type: application/json; charset=UTF-8
 
 ###Solicitud de Informacion
 GET {{apirutes}}/crudUsers.php?id=4
-# x-access-token: {{tokengod}}
-# Content-Type: application/json; charset=UTF-8
-
-
-###Edicion de Informacion
-PUT {{apirutes}}/crudUsers.php
-# x-access-token: {{tokengod}}
-# Content-Type: application/json; charset=UTF-8
-
-{
-  "id": "27",
-  "numDep": "999",
-  "usr": "lfrangel",
-  "nombre": "Rangel Diaz Luis Fernando",
-  "cargo": "Developer",
-  "area": "Sistemas",
-  "psw": "Equilibrio",
-  "estatus": "1"
-}
+x-access-token: {{token}}
 
 ###Borrado de Informacion
 DELETE {{apirutes}}/crudUsers.php
-# x-access-token: {{tokengod}}
-# Content-Type: application/json; charset=UTF-8
-
-{
-  "numDep": "999",
-  "usr": "lfrangel",
-  "nombre": "Rangel Diaz Luis Fernando",
-  "cargo": "Developer",
-  "area": "Sistemas",
-  "psw": "Equilibrio",
-  "estatus": "1"
-}
-
-###Borrado de Informacion
-PATCH  {{apirutes}}/crudUsers.php
 # x-access-token: {{tokengod}}
 # Content-Type: application/json; charset=UTF-8
 
