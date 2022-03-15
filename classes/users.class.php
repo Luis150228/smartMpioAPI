@@ -11,7 +11,7 @@ class users extends cnx{
     public function addUser($json, $header){
         $_resp = new respuesta;
         $info = json_decode($json, true);
-        if ( !isset($info['numDep']) || !isset($info['usr']) || !isset($info['psw']) ) {
+        if (!isset($header['x-access-token']) || !isset($info['numDep']) || !isset($info['usr']) || !isset($info['psw']) ) {
             // return $info['usr'];
             return $_resp->error_416();
         }else{
