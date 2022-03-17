@@ -15,7 +15,7 @@ class actividades extends cnx{
         } else {
             $tarea = $readJson['tarea'];
             $descripcion = $readJson['descripcion'];
-            $solicitante = $readJson['nombre'];
+            $solicitante = $readJson['solicitante'];
             $direccion = $readJson['direccion'];
             $colonia = $readJson['colonia'];
             $telefono = $readJson['telefono'];
@@ -38,11 +38,11 @@ class actividades extends cnx{
     private function createActividad($tarea,$descripcion, $solicitante, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $obs, $token){
         $t = $this->dbtabla;
         $sql = "CALL actCreate('$tarea', '$descripcion', '$solicitante', '$direccion', '$colonia', '$telefono', '$mail', '$importe', '$user', '$asignado', '$obs', '$t', '$token')";
-        print_r($sql);
-        // $query = parent::getDataPa($sql);
-        // if (isset($query[0]['code'])) {
-        //     return $query;
-        // }
+        // print_r($sql);
+        $query = parent::getDataPa($sql);
+        if (isset($query[0]['code'])) {
+            return $query;
+        }
     }
 
     public function editActividad($json, $header){
@@ -55,7 +55,7 @@ class actividades extends cnx{
             $id = $readJson['id'];
             $tarea = $readJson['tarea'];
             $descripcion = $readJson['descripcion'];
-            $solicitante = $readJson['nombre'];
+            $solicitante = $readJson['solicitante'];
             $direccion = $readJson['direccion'];
             $colonia = $readJson['colonia'];
             $telefono = $readJson['telefono'];
@@ -79,6 +79,7 @@ class actividades extends cnx{
     private function modActividad($id, $tarea,$descripcion, $solicitante, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $estatus, $obs, $token){
         $t = $this->dbtabla;
         $sql = "CALL actEdit('$id', '$tarea', '$descripcion', '$solicitante', '$direccion', '$colonia', '$telefono', '$mail', '$importe', '$user', '$asignado', '$estatus', '$obs', '$t', '$token')";
+        // print_r($sql);
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])) {
             return $query;
@@ -110,7 +111,7 @@ class actividades extends cnx{
         $sql = "CALL listData('$t', '$p', '$e', '$tk')";
         // print_r($sql);
             $query = parent::getDataPa($sql);
-            if (isset($query[0]['id'])) {
+            if (isset($query[0]['code'])) {
                 return $query;
             }else{
                 return false;

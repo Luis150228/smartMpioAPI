@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $header = getallheaders();
-    if (isset($_GET['id']) || isset($_GET['pag']) || isset($header['x-access-token'])) {
+    if (isset($header['x-access-token'])) {
         if (isset($_GET['pag']) && isset($_GET['e'])) {
             $resClass = $_admActiv->listActividades($_GET['pag'], $_GET['e'], $header['x-access-token']);
             http_response_code(200);

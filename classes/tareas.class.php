@@ -32,7 +32,7 @@ class tareas extends cnx{
     }
 
     private function createTarea($poa, $descripcion, $sla, $costo, $descripcion_corta, $usr, $token){
-        $t = $this->tabla;
+        $t = $this->dbtabla;
         $sql = "CALL tareaCreate('$poa', '$descripcion', '$sla', '$costo', '$descripcion_corta', '$usr', '$t', '$token')";
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])) {
@@ -67,7 +67,7 @@ class tareas extends cnx{
     }
 
     private function modTarea($tarea, $poa, $descripcion, $sla, $costo, $descripcion_corta, $usr, $status, $token){
-        $t = $this->tabla;
+        $t = $this->dbtabla;
         $sql = "CALL tareaEdit('$tarea', '$poa', '$descripcion', '$sla', '$costo', '$descripcion_corta', '$status','$usr', '$t', '$token')";
         // print_r($sql);
         $query = parent::getDataPa($sql);
