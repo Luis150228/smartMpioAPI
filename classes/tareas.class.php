@@ -19,10 +19,12 @@ class tareas extends cnx{
             $sla = $readJson['sla'];
             $costo = $readJson['costo'];
             $descripcion_corta = $readJson['descripcion_corta'];
+            $recurencia = $readJson['recurencia'];
+            $auto_generar = $readJson['auto_generar'];
             $usr = $readJson['user'];
             $token = $header['x-access-token'];
 
-            $data = $this->createTarea($poa, $descripcion, $sla, $costo, $descripcion_corta, $usr, $token);
+            $data = $this->createTarea($poa, $descripcion, $sla, $costo, $descripcion_corta, $recurencia, $auto_generar, $usr, $token);
             if ($data) {
                 return $data;
             } else {
@@ -31,9 +33,9 @@ class tareas extends cnx{
         }
     }
 
-    private function createTarea($poa, $descripcion, $sla, $costo, $descripcion_corta, $usr, $token){
+    private function createTarea($poa, $descripcion, $sla, $costo, $descripcion_corta, $recurencia, $auto_generar, $usr, $token){
         $t = $this->dbtabla;
-        $sql = "CALL tareaCreate('$poa', '$descripcion', '$sla', '$costo', '$descripcion_corta', '$usr', '$t', '$token')";
+        $sql = "CALL tareaCreate('$poa', '$descripcion', '$sla', '$costo', '$descripcion_corta', '$recurencia', '$auto_generar', '$usr', '$t', '$token')";
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])) {
             return $query;
@@ -53,11 +55,13 @@ class tareas extends cnx{
             $sla = $readJson['sla'];
             $costo = $readJson['costo'];
             $descripcion_corta = $readJson['descripcion_corta'];
+            $recurencia = $readJson['recurencia'];
+            $auto_generar = $readJson['auto_generar'];
             $usr = $readJson['user'];
             $status = $readJson['status'];
             $token = $header['x-access-token'];
 
-            $data = $this->modTarea($tarea, $poa, $descripcion, $sla, $costo, $descripcion_corta, $usr, $status, $token);
+            $data = $this->modTarea($tarea, $poa, $descripcion, $sla, $costo, $descripcion_corta, $recurencia, $auto_generar, $usr, $status, $token);
             if ($data) {
                 return $data;
             } else {
@@ -66,9 +70,9 @@ class tareas extends cnx{
         }
     }
 
-    private function modTarea($tarea, $poa, $descripcion, $sla, $costo, $descripcion_corta, $usr, $status, $token){
+    private function modTarea($tarea, $poa, $descripcion, $sla, $costo, $descripcion_corta, $recurencia, $auto_generar, $usr, $status, $token){
         $t = $this->dbtabla;
-        $sql = "CALL tareaEdit('$tarea', '$poa', '$descripcion', '$sla', '$costo', '$descripcion_corta', '$status','$usr', '$t', '$token')";
+        $sql = "CALL tareaEdit('$tarea', '$poa', '$descripcion', '$sla', '$costo', '$descripcion_corta', '$recurencia', '$auto_generar', '$status', '$usr', '$t', '$token')";
         // print_r($sql);
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])) {
