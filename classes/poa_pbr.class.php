@@ -71,8 +71,9 @@ class metas extends cnx {
     }
 
     private function edtPoa($idmeta, $numDep, $des_meta, $des_mcorta, $des_objetivo, $tipo, $user, $cuantifica, $inicio, $fin, $edo, $token){
-        $t = $this->dbtablam;
+        $t = $this->dbtabla;
         $sql = "CALL metaEdit('$idmeta', '$numDep', '$des_meta', '$des_mcorta', '$des_objetivo', '$tipo', '$user', '$cuantifica', '$inicio', '$fin', '$edo', '$t', '$token')";
+        // print_r($sql);
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])){
             return $query;

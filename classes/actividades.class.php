@@ -79,7 +79,6 @@ class actividades extends cnx{
     private function modActividad($id, $tarea,$descripcion, $solicitante, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $estatus, $obs, $token){
         $t = $this->dbtabla;
         $sql = "CALL actEdit('$id', '$tarea', '$descripcion', '$solicitante', '$direccion', '$colonia', '$telefono', '$mail', '$importe', '$user', '$asignado', '$estatus', '$obs', '$t', '$token')";
-        // print_r($sql);
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])) {
             return $query;
