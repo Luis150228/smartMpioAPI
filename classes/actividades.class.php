@@ -10,12 +10,15 @@ class actividades extends cnx{
         $_resp = new respuesta;
         $readJson = json_decode($json, true);
 
-        if (!isset($header['x-access-token']) || !isset($readJson['tarea']) || !isset($readJson['user']) || !isset($readJson['solicitante']) || !isset($readJson['asignado'])) {
+        if (!isset($header['x-access-token']) || !isset($readJson['tarea']) || !isset($readJson['user']) || !isset($readJson['nombres']) || !isset($readJson['asignado'])) {
             return $_resp->error_416();
         } else {
             $tarea = $readJson['tarea'];
             $descripcion = $readJson['descripcion'];
-            $solicitante = $readJson['solicitante'];
+            $nombres = $readJson['nombres'];
+            $paterno = $readJson['paterno'];
+            $materno = $readJson['materno'];
+            $curp = $readJson['curp'];
             $direccion = $readJson['direccion'];
             $colonia = $readJson['colonia'];
             $telefono = $readJson['telefono'];
@@ -26,7 +29,7 @@ class actividades extends cnx{
             $obs = $readJson['observaciones'];
             $token = $header['x-access-token'];
         
-            $data = $this->createActividad($tarea,$descripcion, $solicitante, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $obs, $token);
+            $data = $this->createActividad($tarea,$descripcion, $nombres, $paterno, $materno, $curp, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $obs, $token);
             if ($data) {
                 return $data;
             } else {
@@ -35,9 +38,9 @@ class actividades extends cnx{
         }
     }
 
-    private function createActividad($tarea,$descripcion, $solicitante, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $obs, $token){
+    private function createActividad($tarea,$descripcion, $nombres, $paterno, $materno, $curp, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $obs, $token){
         $t = $this->dbtabla;
-        $sql = "CALL actCreate('$tarea', '$descripcion', '$solicitante', '$direccion', '$colonia', '$telefono', '$mail', '$importe', '$user', '$asignado', '$obs', '$t', '$token')";
+        $sql = "CALL actCreate('$tarea', '$descripcion', '$nombres', '$paterno', '$materno', '$curp', '$direccion', '$colonia', '$telefono', '$mail', '$importe', '$user', '$asignado', '$obs', '$t', '$token')";
         // print_r($sql);
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])) {
@@ -49,13 +52,16 @@ class actividades extends cnx{
         $_resp = new respuesta;
         $readJson = json_decode($json, true);
 
-        if (!isset($header['x-access-token']) || !isset($readJson['id']) || !isset($readJson['user']) || !isset($readJson['solicitante']) || !isset($readJson['asignado'])) {
+        if (!isset($header['x-access-token']) || !isset($readJson['id']) || !isset($readJson['user']) || !isset($readJson['nombres']) || !isset($readJson['asignado'])) {
             return $_resp->error_416();
         } else {
             $id = $readJson['id'];
             $tarea = $readJson['tarea'];
             $descripcion = $readJson['descripcion'];
-            $solicitante = $readJson['solicitante'];
+            $nombres = $readJson['nombres'];
+            $paterno = $readJson['paterno'];
+            $materno = $readJson['materno'];
+            $curp = $readJson['curp'];
             $direccion = $readJson['direccion'];
             $colonia = $readJson['colonia'];
             $telefono = $readJson['telefono'];
@@ -67,7 +73,7 @@ class actividades extends cnx{
             $obs = $readJson['observaciones'];
             $token = $header['x-access-token'];
         
-            $data = $this->modActividad($id, $tarea,$descripcion, $solicitante, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $estatus, $obs, $token);
+            $data = $this->modActividad($id, $tarea,$descripcion, $nombres, $paterno, $materno, $curp, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $estatus, $obs, $token);
             if ($data) {
                 return $data;
             } else {
@@ -76,9 +82,9 @@ class actividades extends cnx{
         }
     }
 
-    private function modActividad($id, $tarea,$descripcion, $solicitante, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $estatus, $obs, $token){
+    private function modActividad($id, $tarea,$descripcion, $nombres, $paterno, $materno, $curp, $direccion, $colonia, $telefono, $mail, $importe, $user, $asignado, $estatus, $obs, $token){
         $t = $this->dbtabla;
-        $sql = "CALL actEdit('$id', '$tarea', '$descripcion', '$solicitante', '$direccion', '$colonia', '$telefono', '$mail', '$importe', '$user', '$asignado', '$estatus', '$obs', '$t', '$token')";
+        $sql = "CALL actEdit('$id', '$tarea', '$descripcion', '$nombres', '$paterno', '$materno', '$curp', '$direccion', '$colonia', '$telefono', '$mail', '$importe', '$user', '$asignado', '$estatus', '$obs', '$t', '$token')";
         $query = parent::getDataPa($sql);
         if (isset($query[0]['code'])) {
             return $query;
